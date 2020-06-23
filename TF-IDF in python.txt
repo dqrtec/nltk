@@ -1,0 +1,33 @@
+https://towardsdatascience.com/tf-idf-explained-and-python-sklearn-implementation-b020c5e83275
+
+TF-IDF in python
+ -> find relevant words
+ -> quanto uma palavra aparece em um documento e não aparece em outro documento
+
+ para saber a pontuação da frenqunecia de uma palavra "w" em um documento "d" temos a seguinte formula
+ 	tf(w,d) = log(1 + f(w,d)) onde f(w,d) é a frequencia da palavra em d
+
+ para calcular a inverse term frequency é necessário ter o numero de documentos "N" e o Conjunto de todos os documentos "D" e utilizar a seguinte formula:
+ 	idf(w,D) = log(N/ f(w,D) ) onde f(w,D) é a frequencia da palavra em todos os documentos
+
+ para calcular o TF-IDF basta aplicar a seguinte formula
+ 	tfidf(w,d,D) = tf(w,d) * idf(w,D)
+
+=======================
+======== EXAMPLE ======
+=======================
+
+import pandas as pd
+from sklearn.feature_extraction.text import TfidfTransformer
+dataset = [
+    "I enjoy reading about Machine Learning and Machine Learning is my PhD subject",
+    "I would enjoy a walk in the park",
+    "I was reading in the library"
+]
+
+tfIdfVectorizer=TfidfVectorizer(use_idf=True)
+tfIdf = tfIdfVectorizer.fit_transform(dataset)
+df = pd.DataFrame(tfIdf[0].T.todense(), index=tfIdfVectorizer.get_feature_names(), columns=["TF-IDF"])
+df = df.sort_values('TF-IDF', ascending=False)
+print (df.head(25))
+
